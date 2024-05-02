@@ -1,0 +1,64 @@
+#include<math.h>
+#include<GL/glut.h>
+
+GLfloat oldx=-0.5,oldy=0.5;
+void drawKoch(GLfloat dir,GLfloat len,int iter)
+{
+	GLdouble dirRad=dir*0.0174533;
+	GLfloat newx=oldx+len*cos(dirRad);
+	GLfloat newy=oldy+len*sin(dirRad);
+	if(iter==0)
+	{
+		glVertex2f(oldx,oldy);
+		glVertex2f(newx,newy);
+		oldx=newx;
+		oldy=newy;
+	}
+	else
+	{
+		iter--;
+		drawKoch(dir,len,iter);
+		dir+=60;
+		drawKoch(dir,len,iter);
+		dir-=120;
+		drawKoch(dir,len,iter);
+		dir+=60;
+		drawKoch(dir,len,iter);
+	}
+}
+
+void display()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glBegin(GL_LINES);
+	glColor3f(0.0,1.0,0.0);
+	drawKoch(0.0,0.05,3);
+	drawKoch(-120.0,0.05,3);
+	drawKoch(120.0,0.05,3);
+	glEnd();
+	glFlush();
+}
+
+int main(int argc,char**argv)
+{
+	glutInit(&argc,argv);
+	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+	glutInitWindowPosition(0,0);
+	glutInitWindowSize(640,480);
+	glutCreatWindow("KOCH CURVE");
+	glutDisplayFunc(display);
+	glutMainLoop();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
